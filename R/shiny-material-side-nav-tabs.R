@@ -66,17 +66,24 @@ material_side_nav_tabs <- function(side_nav_tabs, icons = NULL, color = NULL, fo
               )
             ),
           href = "javascript:void(0)",
-          onclick = paste0("$('.shiny-material-side-nav-tab-content').hide();",
-                           "$('.shiny-material-side-nav-tab').removeClass('active');",
-                           "$('#", side_nav_tabs[[i]], "').css('visibility', 'visible');",
-                           "$('#", side_nav_tabs[[i]], "').show();",
-                           "$('#", paste0(side_nav_tabs[[i]], "_tab_id"), "').addClass('active');"),
+          onclick = paste0(
+            "$('.shiny-material-side-nav-tab-content').hide();",
+            "$('.shiny-material-side-nav-tab-content').trigger('hide');",
+            "$('.shiny-material-side-nav-tab-content').trigger('hidden');",
+            "$('.shiny-material-side-nav-tab').removeClass('active');",
+            "$('#", side_nav_tabs[[i]], "').show();",
+            "$('#", side_nav_tabs[[i]], "').trigger('show');",
+            "$('#", side_nav_tabs[[i]], "').trigger('shown');",
+            "$('#", paste0(side_nav_tabs[[i]], "_tab_id"), "').addClass('active');",
+            "$('#side_nav_tabs_click_info').trigger('click');"
+          ),
           icon_tag.i, names(side_nav_tabs)[[i]]
         )
       )
   }
   
   shiny::tagList(
+    shiny::tags$div(id = "side_nav_tabs_click_info"),
     material_side_nav_tabs
   )
 }
